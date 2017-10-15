@@ -20,12 +20,12 @@
 -- Required to run from the command line:
 tell application "System Events"
 	set steam_application to application "/Applications/Steam.app"
-
+	
 	repeat
 		-- Load page from browser
 		set user_browser to my GetUserBrowser()
 		set page_contents to my GetPageContents(user_browser)
-
+		
 		-- Search for the Steam Keys in the page content
 		set steam_keys to {}
 		repeat with possible_key in paragraphs of page_contents
@@ -48,7 +48,7 @@ tell application "System Events"
 				end if
 			end if
 		end repeat
-
+		
 		-- Making sure keys are loaded
 		if steam_keys's length is 0 then
 			display dialog "This application will read Steam keys from a web page and will activate them one by one.
@@ -59,7 +59,7 @@ Please, make sure correct site's page is loaded and keys are visible." with titl
 			exit repeat
 		end if
 	end repeat
-
+	
 	-- Starting Steam and asking user for confirmation
 	activate steam_application
 	set AppleScript's text item delimiters to "
@@ -93,9 +93,9 @@ After activation process is started it's recommended to not to touch you Mac unt
 		end tell
 		my SmallDelay()
 	end repeat
-
+	
 	set failed_steam_keys to {}
-
+	
 	-- Entering all the keys gathered
 	repeat with steam_key in steam_keys
 		tell process "Steam"
@@ -178,7 +178,7 @@ on GetUserBrowser()
 	tell application "SystemUIServer"
 		set available_browsers to {"Safari", "Google Chrome"}
 		set default_browser to (name of my GetDefaultBrowser())
-
+		
 		if my ApplicationIsRunning(default_browser) and available_browsers contains default_browser then
 			return default_browser
 		else
@@ -188,7 +188,7 @@ on GetUserBrowser()
 					set running_browsers to running_browsers & browser
 				end if
 			end repeat
-
+			
 			set num_running to count of running_browsers
 			if num_running is equal to 0 then
 				-- This is bad, defaulting to catch-all case
